@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Copilot - Apresentação</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #21262d 100%);
+            color: #f0f6fc;
+            overflow: hidden;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            padding: 60px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide h1 {
+            font-size: 3.5em;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #58a6ff, #79c0ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 8px rgba(88, 166, 255, 0.3);
+        }
+
+        .slide h2 {
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            color: #58a6ff;
+            text-shadow: 0 2px 4px rgba(88, 166, 255, 0.5);
+        }
+
+        .slide h3 {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            color: #79c0ff;
+        }
+
+        .slide p {
+            font-size: 1.4em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #e6edf3;
+        }
+
+        .copilot-logo {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 40px;
+            background: linear-gradient(45deg, #58a6ff, #79c0ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 30px rgba(88, 166, 255, 0.6);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .benefit-card {
+            background: rgba(33, 38, 45, 0.8);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(88, 166, 255, 0.3);
+            border-color: #58a6ff;
+        }
+
+        .benefit-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: #58a6ff;
+        }
+
+        .benefit-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #79c0ff;
+        }
+
+        .benefit-description {
+            font-size: 1.1em;
+            line-height: 1.5;
+            color: #e6edf3;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(45deg, #238636, #2ea043);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(46, 160, 67, 0.3);
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(45deg, #2ea043, #238636);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(46, 160, 67, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(33, 38, 45, 0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid #30363d;
+            font-size: 1.1em;
+            color: #79c0ff;
+        }
+
+        .code-example {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+        }
+
+        .code-example pre {
+            color: #79c0ff;
+            font-size: 1.1em;
+            line-height: 1.4;
+        }
+
+        .highlight {
+            background: linear-gradient(45deg, #58a6ff20, #79c0ff20);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #58a6ff;
+            font-weight: bold;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(33, 38, 45, 0.6);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #58a6ff;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            color: #e6edf3;
+            margin-top: 5px;
+        }
+
+        .feature-list {
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            background: rgba(33, 38, 45, 0.6);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            border-color: #58a6ff;
+            transform: translateX(10px);
+        }
+
+        .feature-icon {
+            font-size: 2em;
+            color: #58a6ff;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .feature-content h4 {
+            color: #79c0ff;
+            margin-bottom: 8px;
+            font-size: 1.3em;
+        }
+
+        .feature-content p {
+            margin: 0;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">10</span>
+        </div>
+
+        <!-- Slide 1: Título -->
+        <div class="slide active">
+            <div class="copilot-logo">🤖</div>
+            <h1>GitHub Copilot para QA</h1>
+            <p>Seu assistente de IA para automação de testes</p>
+            <p>Revolucionando a forma como criamos testes automatizados</p>
+        </div>
+
+        <!-- Slide 2: O que é o Copilot -->
+        <div class="slide">
+            <h2>GitHub Copilot para Automação de Testes</h2>
+            <p>Assistente de IA especializado em acelerar a criação de testes automatizados, keywords e cenários de teste.</p>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">�</div>
+                    <div class="feature-content">
+                        <h4>IA Treinada em Testes</h4>
+                        <p>Conhece padrões do Robot Framework, Selenium, Cypress e outras ferramentas de QA</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-content">
+                        <h4>Geração Instantânea de Keywords</h4>
+                        <p>Cria keywords completas do Robot Framework enquanto você escreve comentários</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">�</div>
+                    <div class="feature-content">
+                        <h4>Cenários de Teste Inteligentes</h4>
+                        <p>Sugere casos de teste, edge cases e validações baseadas no contexto</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Principais Benefícios -->
+        <div class="slide">
+            <h2>Benefícios para Times de QA</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚀</div>
+                    <div class="benefit-title">Criação de Testes 55% Mais Rápida</div>
+                    <div class="benefit-description">Gere keywords do Robot Framework completas instantaneamente com documentação e boas práticas</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <div class="benefit-title">Cobertura de Testes Melhorada</div>
+                    <div class="benefit-description">Sugere casos de teste que você não pensou, incluindo edge cases e cenários negativos</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">�</div>
+                    <div class="benefit-title">Localizadores Otimizados</div>
+                    <div class="benefit-description">Gera seletores CSS, XPath e accessibility IDs mais robustos e maintíveis</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⏰</div>
+                    <div class="benefit-title">Menos Tempo em Debugging</div>
+                    <div class="benefit-description">Identifica problemas e sugere correções para testes que falham</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Exemplo Prático -->
+        <div class="slide">
+            <h2>Exemplo: Gerando Keywords Robot Framework</h2>
+            <p>Veja como o Copilot cria keywords completas do Robot Framework:</p>
+            <div class="code-example">
+                <pre>
+# Você escreve:
+<span class="highlight">Dado que acesso o app e faça login com cliente</span>
+
+# O Copilot sugere:
+Dado que acesso o app e faça login com cliente
+    [Documentation]    Realiza login no aplicativo com as credenciais do cliente
+    [Arguments]    ${conta}
+    Open Session
+    Wait Until Element Is Visible    ${txt_email}    timeout=30s
+    Clear Text                       ${txt_email}
+    Input Text                       ${txt_email}    ${conta}
+    Click Element                    ${btn_continuar}
+    Wait Until Element Is Visible    ${txt_senha}    timeout=15s
+    Input Text                       ${txt_senha}    ${SENHA_PADRAO}
+    Click Element                    ${btn_entrar}
+    Wait Until Element Is Visible    ${btn_grid_home}    timeout=60s
+                </pre>
+            </div>
+            <p>✨ <span class="highlight">Keyword completa com documentação, argumentos e waits</span> gerada automaticamente!</p>
+        </div>
+
+        <!-- Slide 5: Estatísticas de Impacto -->
+        <div class="slide">
+            <h2>Impacto Real em Times de QA</h2>
+            <p>Dados de equipes de QA que adotaram GitHub Copilot:</p>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-number">60%</span>
+                    <span class="stat-label">Redução tempo criação de testes</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">40%</span>
+                    <span class="stat-label">Menos bugs em produção</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">3x</span>
+                    <span class="stat-label">Mais cenários de teste</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">85%</span>
+                    <span class="stat-label">Satisfação das equipes</span>
+                </div>
+            </div>
+            <p>Baseado em estudos de caso de equipes de automação de testes</p>
+        </div>
+
+        <!-- Slide 6: Casos de Uso Específicos -->
+        <div class="slide">
+            <h2>Casos de Uso no Dia a Dia do QA</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">🤖</div>
+                    <div class="feature-content">
+                        <h4>Criação de Keywords Robot Framework</h4>
+                        <p>Gera keywords completas com [Documentation], [Arguments] e melhores práticas automaticamente</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">�</div>
+                    <div class="feature-content">
+                        <h4>Localizadores Mobile Otimizados</h4>
+                        <p>Sugere accessibility_id, XPath e estratégias para Android/iOS</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔍</div>
+                    <div class="feature-content">
+                        <h4>Cenários de Edge Cases</h4>
+                        <p>Identifica casos limite que você pode ter esquecido de testar</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-content">
+                        <h4>Debugging de Testes Falhos</h4>
+                        <p>Analisa logs e sugere correções para testes instáveis</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-content">
+                        <h4>Scripts de Dados de Teste</h4>
+                        <p>Gera massas de dados dinâmicas com FakerLibrary e validações</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Benefícios Estratégicos -->
+        <div class="slide">
+            <h2>Vantagens Estratégicas para QA</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">⏰</div>
+                    <div class="benefit-title">Faster Time to Market</div>
+                    <div class="benefit-description">Testes criados mais rapidamente = releases mais ágeis e seguras</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <div class="benefit-title">Qualidade Elevada</div>
+                    <div class="benefit-description">Mais cenários testados = menos bugs em produção = usuários mais satisfeitos</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">👥</div>
+                    <div class="benefit-title">Onboarding Acelerado</div>
+                    <div class="benefit-description">Novos QAs aprendem Robot Framework mais rapidamente com exemplos do Copilot</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔄</div>
+                    <div class="benefit-title">Manutenção Simplificada</div>
+                    <div class="benefit-description">Código de teste mais limpo e documentado = menor custo de manutenção</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: GitHub CLI + IA no CI/CD -->
+        <div class="slide">
+            <h2>GitHub CLI + IA: Automação Inteligente no CI/CD</h2>
+            <p>Integre IA diretamente nos seus pipelines para análise automatizada de falhas</p>
+            
+            <div class="code-example">
+                <pre>
+<span class="highlight"># GitHub Actions - Análise Automática de Falhas</span>
+- name: Run Robot Framework Tests
+  run: |
+    robot --outputdir results/ cenarios/
+    
+- name: Analyze Test Failures with AI
+  if: failure()
+  run: |
+    # Usa IA para explicar falhas automaticamente
+    gh copilot explain results/output.xml > failure_analysis.md
+    gh copilot suggest --type fix "Robot Framework test failed: $(cat failure_analysis.md)"
+    
+- name: Create Intelligent Issue
+  if: failure()
+  run: |
+    # Cria issue com análise detalhada da IA
+    gh issue create \
+      --title "🤖 Análise Automática: Falha nos Testes - $(date)" \
+      --body-file failure_analysis.md \
+      --label "bug,automated-analysis" \
+      --assignee @me
+                </pre>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔍</div>
+                    <div class="benefit-title">Análise Automática</div>
+                    <div class="benefit-description">IA analisa logs de falha e sugere possíveis causas e soluções</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-title">Feedback Instantâneo</div>
+                    <div class="benefit-description">Desenvolvedores recebem análises detalhadas sem esperar QA manual</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Mais Exemplos GitHub CLI -->
+        <div class="slide">
+            <h2>GitHub CLI: Casos de Uso Avançados para QA</h2>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-content">
+                        <h4>Relatórios Automáticos de Qualidade</h4>
+                        <div class="code-example" style="margin-top: 10px;">
+                            <pre>
+# Gera relatório de tendências de qualidade
+gh copilot suggest "Analyze test results trends from last 30 days"
+gh api repos/:owner/:repo/actions/runs \
+  | jq '.workflow_runs[] | select(.conclusion=="failure")' \
+  | gh copilot explain --type analysis
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">🔄</div>
+                    <div class="feature-content">
+                        <h4>Auto-retry Inteligente</h4>
+                        <div class="code-example" style="margin-top: 10px;">
+                            <pre>
+# Analisa se falha é flaky test e decide se deve fazer retry
+if gh copilot explain failure.log | grep -q "flaky\|intermittent"; then
+  echo "🔄 Flaky test detectado - executando retry"
+  robot --rerunfailed results/output.xml cenarios/
+fi
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-content">
+                        <h4>Sugestão de Melhorias</h4>
+                        <div class="code-example" style="margin-top: 10px;">
+                            <pre>
+# IA sugere melhorias no código de teste
+gh copilot suggest --type optimization \
+  "Optimize this Robot Framework keyword for better maintainability" \
+  < keywords_problematicos.robot
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Conclusão -->
+        <div class="slide">
+            <h2>Transforme seu Time de QA</h2>
+            <div class="copilot-logo">🚀</div>
+            <p>O GitHub Copilot não substitui o QA,</p>
+            <p><span class="highlight">ele multiplica sua capacidade de teste!</span></p>
+            <br>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <div class="benefit-title">Foque na Estratégia</div>
+                    <div class="benefit-description">Menos tempo codificando, mais tempo planejando cenários críticos</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📈</div>
+                    <div class="benefit-title">Mais Cobertura</div>
+                    <div class="benefit-description">Crie mais testes em menos tempo com melhor qualidade</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🤖</div>
+                    <div class="benefit-title">CI/CD Inteligente</div>
+                    <div class="benefit-description">Pipelines que se auto-analisam e sugerem melhorias</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-title">Debugging Automatizado</div>
+                    <div class="benefit-description">IA identifica e explica falhas em tempo real</div>
+                </div>
+            </div>
+            <p><strong>Acelere sua automação e eleve a qualidade do software!</strong></p>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Anterior</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Próximo →</button>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            
+            // Atualizar botões
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            const newIndex = currentSlideIndex + direction;
+            if (newIndex >= 0 && newIndex < totalSlides) {
+                currentSlideIndex = newIndex;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        // Navegação por teclado
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') changeSlide(-1);
+            if (event.key === 'ArrowRight') changeSlide(1);
+            if (event.key === 'Home') {
+                currentSlideIndex = 0;
+                showSlide(currentSlideIndex);
+            }
+            if (event.key === 'End') {
+                currentSlideIndex = totalSlides - 1;
+                showSlide(currentSlideIndex);
+            }
+        });
+
+        // Inicializar
+        showSlide(0);
+
+        // Auto-avançar (opcional - descomente se quiser)
+        /*
+        setInterval(() => {
+            if (currentSlideIndex < totalSlides - 1) {
+                changeSlide(1);
+            } else {
+                currentSlideIndex = 0;
+                showSlide(0);
+            }
+        }, 10000); // 10 segundos por slide
+        */
+    </script>
+</body>
+</html>
