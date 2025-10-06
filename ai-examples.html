@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA na área de QA: Exemplos Práticos</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Estilos específicos desta página */
+        body {
+            overflow-x: hidden;
+            overflow-y: auto;
+            width: 100%;
+            max-width: 100vw;
+        }
+        
+        .example-section {
+            margin-bottom: 30px;
+        }
+
+        .example-section h3 {
+            color: var(--primary-green);
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-example {
+            background: #0d1117;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .code-example pre {
+            color: var(--secondary-green);
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .highlight {
+            background: linear-gradient(45deg, rgba(0, 208, 158, 0.2), rgba(74, 229, 195, 0.2));
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .benefits-list li {
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+
+        .benefits-list li:before {
+            content: "✓";
+            color: var(--primary-green);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+
+        .metrics {
+            background: rgba(0, 208, 158, 0.1);
+            border-left: 4px solid var(--primary-green);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .metrics h4 {
+            color: var(--primary-green);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+
+        .metric-value {
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header fixo -->
+        <header class="header" id="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1>IA na área de QA: Exemplos Práticos</h1>
+                    <div class="subtitle">Casos reais de uso de IA para automação e QA</div>
+                </div>
+                <a href="index.html#slide-5" class="btn" onclick="goToSlide5()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Voltar para Apresentação
+                </a>
+            </div>
+        </header>
+
+        <!-- Conteúdo principal -->
+        <div class="content-wrapper">
+            <div class="examples-grid">
+                <!-- Card 1: Workstation Chatmode -->
+                <div class="example-card" onclick="toggleExample(this)">
+                    <button class="close-btn" onclick="event.stopPropagation(); closeExample(this.parentElement)">×</button>
+                    
+                    <div class="example-header">
+                        <div class="example-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
+                                <path d="M19 15L20.09 18.26L24 19L20.09 19.74L19 23L17.91 19.74L14 19L17.91 18.26L19 15Z" fill="currentColor"/>
+                                <path d="M5 15L6.09 18.26L10 19L6.09 19.74L5 23L3.91 19.74L0 19L3.91 18.26L5 15Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <div class="example-info">
+                            <div class="example-title">Workstation Chatmode</div>
+                            <div class="example-subtitle">Configuração Automática de Ambiente</div>
+                            <div class="example-tags">
+                                <span class="tag">DevOps</span>
+                                <span class="tag">Automação</span>
+                                <span class="tag">Onboarding</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-preview">
+                        Agente inteligente que detecta sistema operacional, instala dependências e configura ambientes de desenvolvimento automaticamente para novos membros do time.
+                    </div>
+
+                    <div class="example-details">
+                        <div class="example-section">
+                            <h3>💡 Como Funciona</h3>
+                            <div class="code-example">
+                                <pre>
+<span class="highlight"># Detecção automática do sistema</span>
+#!/bin/bash
+echo "🤖 Agente Workstation Setup"
+
+# Detecta OS (usa macOS e Ubuntu)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    echo "📱 Configurando macOS para dev..."
+    # Instala ferramentas via Homebrew
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    brew install python pyenv poetry docker git gh
+    
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    echo "🐧 Configurando Ubuntu para server..."
+    sudo apt-get update
+    sudo apt-get install -y python3-pip docker.io nodejs npm
+fi
+
+<span class="highlight"># Configurações específicas</span>
+# Clona repos essenciais 
+gh repo clone company/qa_automation_app
+gh repo clone company/api-tests
+
+# Setup ambiente Robot Framework 
+cd qa_automation_app
+poetry install
+cp .env.example .env
+
+echo "✅ Ambiente configurado com sucesso!"
+                                </pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-section">
+                            <h3>🎯 Benefícios para o time</h3>
+                            <ul class="benefits-list">
+                                <li>Setup automático para novos QAs e desenvolvedores</li>
+                                <li>Padronização completa de ambientes (macOS, Ubuntu)</li>
+                                <li>Reduz tempo de onboarding de 1 dia inteiro para 30 minutos</li>
+                                <li>Menos tickets de suporte para DevOps team</li>
+                                <li>Configuração de repos automática com permissões corretas</li>
+                                <li>Instala ferramentas específicas (gh cli, docker, poetry)</li>
+                            </ul>
+                            
+                            <div class="metrics">
+                                <h4>📊 Métricas de Impacto</h4>
+                                <div class="metric-item">
+                                    <span>Tempo de onboarding:</span>
+                                    <span class="metric-value">8h → 30min (-93%)</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Tickets DevOps:</span>
+                                    <span class="metric-value">-75% por mês</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Ambientes padronizados:</span>
+                                    <span class="metric-value">100% teams</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Find Affected Scenarios -->
+                <div class="example-card" onclick="toggleExample(this)">
+                    <button class="close-btn" onclick="event.stopPropagation(); closeExample(this.parentElement)">×</button>
+                    
+                    <div class="example-header">
+                        <div class="example-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                                <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="example-info">
+                            <div class="example-title">Find Affected Scenarios</div>
+                            <div class="example-subtitle">PR Check com Análise Inteligente</div>
+                            <div class="example-tags">
+                                <span class="tag">CI/CD</span>
+                                <span class="tag">GitHub</span>
+                                <span class="tag">Smart Testing</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-preview">
+                        IA analisa Pull Requests e identifica automaticamente quais cenários de teste podem ser impactados, executando apenas testes relevantes.
+                    </div>
+
+                    <div class="example-details">
+                        <div class="example-section">
+                            <h3>💡 Como Funciona</h3>
+                            <div class="code-example">
+                                <pre>
+<span class="highlight"># GitHub Action - PR Smart Analysis</span>
+name: Smart Test Execution
+on:
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  analyze-impact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Analyze PR Impact with AI
+        run: |
+          # IA analisa arquivos modificados
+          CHANGED_FILES=$(git diff --name-only HEAD~1)
+          echo "🔍 Arquivos alterados: $CHANGED_FILES"
+          
+          # Contexto específico
+          gh copilot explain \
+            "Which payment scenarios could be affected by changes in: $CHANGED_FILES. 
+             Consider APIs: checkout, pix, split, webhooks, antifraude" \
+            > affected-scenarios.md
+          
+      - name: Execute Smart Tests
+        run: |
+          # Executa apenas testes relevantes
+          if [ -s tests-to-run.txt ]; then
+            echo "🎯 Executando testes específicos:"
+            cat tests-to-run.txt
+            
+            # Execução paralela otimizada
+            robot --outputdir results/ \
+                  --include impacted \
+                  $(cat tests-to-run.txt | tr '\n' ' ')
+          else
+            echo "ℹ️ Nenhum teste impactado"
+          fi
+                                </pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-section">
+                            <h3>🎯 Benefícios para o time</h3>
+                            <ul class="benefits-list">
+                                <li>Executa apenas testes relevantes ao invés de toda suite</li>
+                                <li>Reduz tempo de CI de 45 minutos para 15 minutos</li>
+                                <li>Identifica impactos em APIs automaticamente</li>
+                                <li>Previne regressões em fluxos críticos de pagamento</li>
+                                <li>Economiza recursos computacionais ($$$ AWS)</li>
+                                <li>Feedback mais rápido para developers</li>
+                            </ul>
+                            
+                            <div class="metrics">
+                                <h4>📊 Impacto CI/CD</h4>
+                                <div class="metric-item">
+                                    <span>Tempo médio de CI:</span>
+                                    <span class="metric-value">45min → 15min (-67%)</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Custos AWS:</span>
+                                    <span class="metric-value">-$2.000/mês</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Precisão dos testes:</span>
+                                    <span class="metric-value">+40% relevância</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Analyse XML Output -->
+                <div class="example-card" onclick="toggleExample(this)">
+                    <button class="close-btn" onclick="event.stopPropagation(); closeExample(this.parentElement)">×</button>
+                    
+                    <div class="example-header">
+                        <div class="example-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
+                                <path d="M14 2V8H20" stroke="currentColor" stroke-width="2"/>
+                                <path d="M7 10L9 12L7 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M17 10L15 12L17 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M11 15H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="example-info">
+                            <div class="example-title">Analyse XML Output</div>
+                            <div class="example-subtitle">Robot Framework + GitHub CLI</div>
+                            <div class="example-tags">
+                                <span class="tag">Robot Framework</span>
+                                <span class="tag">Debugging</span>
+                                <span class="tag">CLI</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-preview">
+                        IA analisa output.xml do Robot Framework e explica falhas com contexto específico, sugerindo correções precisas para APIs e fluxos de pagamento.
+                    </div>
+
+                    <div class="example-details">
+                        <div class="example-section">
+                            <h3>💡 Como Funciona</h3>
+                            <div class="code-example">
+                                <pre>
+<span class="highlight"># Análise automática de falhas Robot Framework</span>
+#!/bin/bash
+
+echo "🔍 Analisando falhas nos testes..."
+
+# 1. Extrai falhas do output.xml
+python3 -c "
+import xml.etree.ElementTree as ET
+tree = ET.parse('results/output.xml')
+
+failed_tests = []
+for test in tree.findall('.//test[@status=\"FAIL\"]'):
+    name = test.get('name')
+    message = test.find('status').get('message', '')
+    
+    # Contexto específico
+    if 'api' in name.lower() or 'api' in message.lower():
+        failed_tests.append(f'''
+Test: {name}
+Error: {message}
+Context: Payment API
+---''')
+
+with open('failures.txt', 'w') as f:
+    f.write('\n'.join(failed_tests))
+"
+
+# 2. IA analisa com contexto
+gh copilot explain \
+  "Analyze these payment API test failures. Consider common issues: 
+   - API timeouts (504, 502)
+   - Authentication failures (401, 403) 
+   - Rate limiting (429)
+   - Webhook delivery issues
+   - PIX transaction timeouts" \
+  < failures.txt > analysis.md
+
+# 3. Cria issue contextualizado
+gh issue create \
+  --title "🏦 [API] Análise Automática de Falhas - $(date '+%Y-%m-%d')" \
+  --body "$(cat analysis.md)" \
+  --label "api,bug,automated-analysis,qa-team"
+                                </pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-section">
+                            <h3>🎯 Benefícios para o time</h3>
+                            <ul class="benefits-list">
+                                <li>Debug 70% mais rápido de falhas em APIs</li>
+                                <li>Identifica padrões específicos: timeouts, webhooks, PIX</li>
+                                <li>Sugere correções contextualizadas para infrastructure</li>
+                                <li>Gera issues automaticamente com contexto completo</li>
+                                <li>Reduz escalações desnecessárias para DevOps</li>
+                                <li>Melhora MTTR (Mean Time To Resolution)</li>
+                            </ul>
+                            
+                            <div class="metrics">
+                                <h4>📊 Debug Performance</h4>
+                                <div class="metric-item">
+                                    <span>Tempo médio debug:</span>
+                                    <span class="metric-value">2h → 30min (-75%)</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Precisão diagnóstico:</span>
+                                    <span class="metric-value">+85% acurácia</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Issues bem contextualizadas:</span>
+                                    <span class="metric-value">95% times</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: Stale PR Management -->
+                <div class="example-card" onclick="toggleExample(this)">
+                    <button class="close-btn" onclick="event.stopPropagation(); closeExample(this.parentElement)">×</button>
+                    
+                    <div class="example-header">
+                        <div class="example-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <polyline points="10,9 9,9 8,9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="example-info">
+                            <div class="example-title">Stale PR Cleanup</div>
+                            <div class="example-subtitle">Automação Inteligente de Limpeza</div>
+                            <div class="example-tags">
+                                <span class="tag">GitHub</span>
+                                <span class="tag">Automação</span>
+                                <span class="tag">Manutenção</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-preview">
+                        IA gerencia PRs obsoletos em repositórios, fecha automaticamente PRs antigos, limpa branches órfãs e notifica teams relevantes.
+                    </div>
+
+                    <div class="example-details">
+                        <div class="example-section">
+                            <h3>💡 Como Funciona</h3>
+                            <div class="code-example">
+                                <pre>
+<span class="highlight"># GitHub Action - Repository Cleanup</span>
+name: Stale PR and Branch Cleanup
+on:
+  schedule:
+    - cron: '0 2 * * 1-5'  # Weekdays 2 AM
+  workflow_dispatch:
+
+jobs:
+  cleanup-automation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Analyze PRs with AI
+        run: |
+          echo "🧹 Iniciando limpeza inteligente..."
+          
+          # Lista PRs antigos (30+ dias)
+          gh pr list --state open --json number,title,createdAt,author \
+            --jq '.[] | select((.createdAt | frozenow - todateiso8601) > (30 * 24 * 3600))' \
+            > old-prs.json
+          
+          # IA analisa cada PR
+          while read pr; do
+            PR_NUM=$(echo $pr | jq -r '.number')
+            PR_TITLE=$(echo $pr | jq -r '.title')
+            PR_AUTHOR=$(echo $pr | jq -r '.author.login')
+            
+            # IA decide se deve fechar
+            DECISION=$(gh copilot explain \
+              "Should this PR be closed? 
+               Title: $PR_TITLE
+               Author: $PR_AUTHOR  
+               Age: 30+ days
+               Consider: release cycles, critical fixes, experimental features")
+            
+            if echo "$DECISION" | grep -qi "close\|obsolete\|stale"; then
+              gh pr comment $PR_NUM --body "
+🤖 **Análise Automática**
+
+Este PR está há mais de 30 dias sem atividade. 
+
+**IA Analysis**: $DECISION
+
+**Próximos passos**:
+- Se ainda é relevante: comente aqui e remova label 'stale' 
+- Caso contrário: será fechado automaticamente em 7 dias
+- Dúvidas: contate @devops-team
+              "
+              
+              gh pr edit $PR_NUM --add-label "stale,auto-cleanup"
+            fi
+          done < old-prs.json
+                                </pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-section">
+                            <h3>🎯 Benefícios para o time</h3>
+                            <ul class="benefits-list">
+                                <li>Repositórios sempre organizados e limpos</li>
+                                <li>Remove automaticamente branches órfãs e PRs obsoletos</li>
+                                <li>Notifica teams antes de fazer mudanças</li>
+                                <li>Preserva branches importantes (main, develop, release)</li>
+                                <li>Economiza tempo de tech leads em manutenção manual</li>
+                                <li>Melhora performance do Git em repos grandes</li>
+                            </ul>
+                            
+                            <div class="metrics">
+                                <h4>📊 Limpeza Automática</h4>
+                                <div class="metric-item">
+                                    <span>PRs fechados automaticamente:</span>
+                                    <span class="metric-value">~15/semana</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Branches limpas:</span>
+                                    <span class="metric-value">~25/mês</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Tempo leads economizado:</span>
+                                    <span class="metric-value">4h/semana</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5: API Monitor -->
+                <div class="example-card" onclick="toggleExample(this)">
+                    <button class="close-btn" onclick="event.stopPropagation(); closeExample(this.parentElement)">×</button>
+                    
+                    <div class="example-header">
+                        <div class="example-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="example-info">
+                            <div class="example-title">API Monitor</div>
+                            <div class="example-subtitle">Monitoramento Inteligente com IA</div>
+                            <div class="example-tags">
+                                <span class="tag">Monitoring</span>
+                                <span class="tag">API</span>
+                                <span class="tag">Alertas</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-preview">
+                        IA monitora APIs em tempo real, detecta anomalias, classifica severidade e dispara alertas contextualizados para teams apropriados.
+                    </div>
+
+                    <div class="example-details">
+                        <div class="example-section">
+                            <h3>💡 Como Funciona</h3>
+                            <div class="code-example">
+                                <pre>
+<span class="highlight"># API Health Monitor com AI</span>
+import asyncio
+import aiohttp
+from datetime import datetime
+import json
+
+class APIHealthMonitor:
+    def __init__(self):
+        self.endpoints = [
+            {"url": "https://api.stone.co/v1/health", "critical": True},
+            {"url": "https://api.stone.co/v1/payments", "critical": True},
+            {"url": "https://api.stone.co/v1/analytics", "critical": False}
+        ]
+        
+    async def monitor_endpoint(self, endpoint):
+        """Monitora um endpoint específico"""
+        async with aiohttp.ClientSession() as session:
+            start_time = datetime.now()
+            
+            try:
+                async with session.get(
+                    endpoint["url"], 
+                    timeout=aiohttp.ClientTimeout(total=10)
+                ) as response:
+                    response_time = (datetime.now() - start_time).total_seconds()
+                    
+                    # Coleta métricas detalhadas
+                    metrics = {
+                        "url": endpoint["url"],
+                        "status": response.status,
+                        "response_time": response_time,
+                        "timestamp": datetime.now().isoformat(),
+                        "headers": dict(response.headers),
+                        "critical": endpoint["critical"]
+                    }
+                    
+                    # IA analisa saúde baseada em padrões
+                    health_analysis = await self.analyze_health_with_ai(metrics)
+                    metrics["ai_analysis"] = health_analysis
+                    
+                    return metrics
+                    
+            except Exception as e:
+                return {
+                    "url": endpoint["url"],
+                    "error": str(e),
+                    "status": "ERROR",
+                    "timestamp": datetime.now().isoformat(),
+                    "critical": endpoint["critical"],
+                    "ai_analysis": "CRITICAL - Service Unavailable"
+                }
+    
+    async def analyze_health_with_ai(self, metrics):
+        """IA analisa métricas e determina problemas"""
+        
+        # Exemplo de análise inteligente
+        issues = []
+        
+        # Latência alta
+        if metrics["response_time"] > 2.0:
+            issues.append("High latency detected")
+            
+        # Status codes problemáticos
+        if metrics["status"] >= 500:
+            issues.append("Server error - immediate attention required")
+        elif metrics["status"] >= 400:
+            issues.append("Client error - check API usage")
+            
+        # Análise de padrões (simulado)
+        if metrics["response_time"] > 1.0 and "critical" in str(metrics):
+            issues.append("Performance degradation on critical endpoint")
+            
+        if not issues:
+            return "HEALTHY - All metrics within normal range"
+        else:
+            severity = "CRITICAL" if metrics["critical"] else "WARNING"
+            return f"{severity} - {', '.join(issues)}"
+
+# Uso do monitor
+async def main():
+    monitor = APIHealthMonitor()
+    
+    while True:
+        print("🔍 Verificando saúde das APIs...")
+        
+        # Monitora todos os endpoints simultaneamente
+        tasks = [monitor.monitor_endpoint(ep) for ep in monitor.endpoints]
+        results = await asyncio.gather(*tasks)
+        
+        # Processa resultados
+        for result in results:
+            status_emoji = "✅" if "HEALTHY" in result.get("ai_analysis", "") else "❌"
+            print(f"{status_emoji} {result['url']}: {result.get('ai_analysis', 'N/A')}")
+            
+        await asyncio.sleep(30)  # Verifica a cada 30 segundos
+
+if __name__ == "__main__":
+    asyncio.run(main())
+                                </pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-section">
+                            <h3>🎯 Benefícios para o time</h3>
+                            <ul class="benefits-list">
+                                <li>Detecção proativa de problemas antes dos usuários</li>
+                                <li>Análise inteligente de padrões de performance</li>
+                                <li>Alertas contextualizados com sugestões de solução</li>
+                                <li>Dashboard em tempo real com métricas SLA</li>
+                                <li>Histórico para análise de tendências</li>
+                                <li>Integração com Slack/Teams para notificações</li>
+                            </ul>
+                            
+                            <div class="metrics">
+                                <h4>📊 Monitoramento 24/7</h4>
+                                <div class="metric-item">
+                                    <span>Uptime médio:</span>
+                                    <span class="metric-value">99.8%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Tempo resposta médio:</span>
+                                    <span class="metric-value">120ms</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Problemas detectados:</span>
+                                    <span class="metric-value">~3min antes usuários</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6: Test Data Generator -->
+                <div class="example-card" onclick="toggleExample(this)">
+                    <button class="close-btn" onclick="event.stopPropagation(); closeExample(this.parentElement)">×</button>
+                    
+                    <div class="example-header">
+                        <div class="example-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C13.1046 2 14 2.89543 14 4V6H20C21.1046 6 22 6.89543 22 8V20C22 21.1046 21.1046 22 20 22H4C2.89543 22 2 21.1046 2 20V8C2 6.89543 2.89543 6 4 6H10V4C10 2.89543 10.8954 2 12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="12" cy="14" r="3" stroke="currentColor" stroke-width="2"/>
+                                <path d="M8 14H7M17 14H16M12 11V10M12 18V17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="example-info">
+                            <div class="example-title">Test Data Generator</div>
+                            <div class="example-subtitle">Dados Sintéticos com IA</div>
+                            <div class="example-tags">
+                                <span class="tag">Test Data</span>
+                                <span class="tag">Privacy</span>
+                                <span class="tag">Synthetic</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-preview">
+                        IA gera dados de teste realistas para o time: CPFs válidos, transações PIX, cartões de teste, cenários de pagamento complexos mantendo privacidade.
+                    </div>
+
+                    <div class="example-details">
+                        <div class="example-section">
+                            <h3>💡 Como Funciona</h3>
+                            <div class="code-example">
+                                <pre>
+<span class="highlight"># Gerador Inteligente de Dados de Teste</span>
+import random
+from datetime import datetime, timedelta
+from faker import Faker
+import json
+
+class AITestDataGenerator:
+    def __init__(self):
+        self.fake = Faker('pt_BR')
+        self.business_rules = {
+            'payment_methods': ['pix', 'credit_card', 'debit_card', 'bank_transfer'],
+            'status_workflow': ['pending', 'processing', 'approved', 'declined', 'refunded'],
+            'amount_ranges': {
+                'small': (1, 100),
+                'medium': (100, 1000),
+                'large': (1000, 10000),
+                'enterprise': (10000, 100000)
+            }
+        }
+    
+    def generate_realistic_transaction(self, scenario="normal"):
+        """Gera transação baseada em cenários reais"""
+        
+        # IA escolhe padrões baseados no cenário
+        if scenario == "fraud_detection":
+            # Simula padrões suspeitos
+            amount = random.uniform(5000, 15000)  # Valores altos
+            payment_method = "credit_card"
+            created_at = datetime.now() - timedelta(minutes=random.randint(1, 5))
+            status = random.choice(['declined', 'processing'])
+            
+        elif scenario == "high_volume":
+            # Simula picos de volume
+            amount = random.uniform(10, 500)
+            payment_method = random.choice(['pix', 'debit_card'])
+            created_at = datetime.now() - timedelta(seconds=random.randint(1, 60))
+            status = 'approved'
+            
+        elif scenario == "edge_cases":
+            # Casos extremos que quebram sistemas
+            amount = random.choice([0.01, 99999.99, 0])  # Valores limites
+            payment_method = random.choice(self.business_rules['payment_methods'])
+            created_at = datetime.now() - timedelta(days=random.randint(90, 365))
+            status = random.choice(['refunded', 'declined'])
+            
+        else:  # normal
+            amount = random.uniform(20, 800)
+            payment_method = random.choice(self.business_rules['payment_methods'])
+            created_at = datetime.now() - timedelta(hours=random.randint(1, 24))
+            status = 'approved'
+        
+        return {
+            "id": self.fake.uuid4(),
+            "amount": round(amount, 2),
+            "payment_method": payment_method,
+            "merchant_id": self.fake.uuid4(),
+            "customer": {
+                "name": self.fake.name(),
+                "document": self.fake.cpf(),
+                "email": self.fake.email(),
+                "phone": self.fake.phone_number()
+            },
+            "status": status,
+            "created_at": created_at.isoformat(),
+            "scenario": scenario,
+            "metadata": self.generate_smart_metadata(payment_method, amount)
+        }
+    
+    def generate_smart_metadata(self, payment_method, amount):
+        """IA adiciona metadados contextuais"""
+        metadata = {}
+        
+        if payment_method == "credit_card":
+            metadata.update({
+                "card_brand": random.choice(['visa', 'mastercard', 'amex']),
+                "installments": random.choice([1, 2, 3, 6, 12]) if amount > 100 else 1,
+                "last_four": f"{random.randint(1000, 9999)}"
+            })
+            
+        elif payment_method == "pix":
+            metadata.update({
+                "pix_key_type": random.choice(['cpf', 'email', 'phone', 'random']),
+                "bank_code": f"{random.randint(100, 999)}"
+            })
+        
+        # IA adiciona contexto baseado no valor
+        if amount > 1000:
+            metadata["requires_approval"] = True
+            metadata["risk_score"] = random.uniform(0.3, 0.8)
+        else:
+            metadata["risk_score"] = random.uniform(0.1, 0.3)
+            
+        return metadata
+    
+    def generate_test_suite(self, count=100):
+        """Gera suite completa para diferentes cenários"""
+        scenarios = {
+            "normal": int(count * 0.7),      # 70% casos normais
+            "fraud_detection": int(count * 0.1),  # 10% suspeitos
+            "high_volume": int(count * 0.15),     # 15% alto volume
+            "edge_cases": int(count * 0.05)       # 5% casos extremos
+        }
+        
+        test_data = []
+        
+        for scenario, scenario_count in scenarios.items():
+            for _ in range(scenario_count):
+                test_data.append(self.generate_realistic_transaction(scenario))
+        
+        # IA organiza dados por complexidade
+        return {
+            "metadata": {
+                "generated_at": datetime.now().isoformat(),
+                "total_records": len(test_data),
+                "scenarios": scenarios,
+                "generator_version": "2.1.0-ai"
+            },
+            "transactions": test_data
+        }
+
+# Exemplo de uso
+generator = AITestDataGenerator()
+
+# Gera 500 transações com distribuição inteligente
+test_suite = generator.generate_test_suite(500)
+
+print(f"✅ Gerados {test_suite['metadata']['total_records']} registros")
+print("📊 Distribuição por cenário:")
+for scenario, count in test_suite['metadata']['scenarios'].items():
+    print(f"   {scenario}: {count} registros")
+
+# Salva para uso nos testes
+with open('test_data.json', 'w') as f:
+    json.dump(test_suite, f, indent=2, ensure_ascii=False)
+                                </pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-section">
+                            <h3>🎯 Benefícios para o time</h3>
+                            <ul class="benefits-list">
+                                <li>Dados de teste realistas seguindo regras de negócio</li>
+                                <li>Cenários automatizados para edge cases e fraudes</li>
+                                <li>Reduz tempo de setup de ambiente de testes</li>
+                                <li>Garante cobertura de casos raros mas importantes</li>
+                                <li>Massa de dados consistente entre ambientes</li>
+                                <li>Facilita testes de performance e stress</li>
+                            </ul>
+                            
+                            <div class="metrics">
+                                <h4>📊 Produtividade QA</h4>
+                                <div class="metric-item">
+                                    <span>Tempo setup reduzido:</span>
+                                    <span class="metric-value">80%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Casos edge descobertos:</span>
+                                    <span class="metric-value">+40%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Bugs encontrados:</span>
+                                    <span class="metric-value">+25%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 7: Copilot Review de PR -->
+                <div class="example-card" onclick="toggleExample(this)">
+                    <button class="close-btn" onclick="event.stopPropagation(); closeExample(this.parentElement)">×</button>
+                    
+                    <div class="example-header">
+                        <div class="example-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="example-info">
+                            <div class="example-title">Copilot Review de PR</div>
+                            <div class="example-subtitle">IA que analisa pull requests seguindo suas guidelines</div>
+                            <div class="example-tags">
+                                <span class="tag">Code Review</span>
+                                <span class="tag">GitHub</span>
+                                <span class="tag">Qualidade</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-preview">
+                        Sistema inteligente que analisa PRs automaticamente seguindo suas guidelines de qualidade, sugerindo melhorias e identificando gaps de testes.
+                    </div>
+
+                    <div class="example-details">
+                        <div class="example-section">
+                            <h3>� Copilot Instructions para QA Review</h3>
+                            <div class="code-example">
+                                <pre>
+# COPILOT INSTRUCTIONS - QA REVIEW
+
+## Objetivo
+Você é um especialista como QA que revisa PRs com foco em qualidade, 
+testabilidade e melhores práticas de desenvolvimento.
+
+## Guidelines de Revisão
+
+### 1. Análise de Cobertura de Testes ✅
+- Verificar se novos recursos têm testes unitários
+- Validar cenários de teste para edge cases
+- Confirmar se testes de integração estão presentes
+- Checar se há testes para casos de erro
+
+### 2. Padrões de Qualidade 📊
+- Verificar nomenclatura clara e descritiva
+- Validar tratamento de exceções
+- Confirmar logging adequado para debugging
+- Verificar se há documentação necessária
+
+### 3. Potenciais Problemas de QA 🐛
+- Identificar race conditions potenciais
+- Verificar validações de entrada
+- Analisar impactos em performance
+- Checar compatibilidade com ambientes
+
+### 4. Sugestões de Melhoria 🚀
+- Propor testes adicionais quando necessário
+- Sugerir refatorações para melhor testabilidade
+- Recomendar ferramentas de quality gates
+- Indicar oportunidades de automação
+
+## Formato de Review
+Para cada arquivo alterado, forneça:
+1. ✅ Pontos positivos encontrados
+2. ⚠️ Potenciais riscos ou melhorias
+3. 🧪 Sugestões de testes específicos
+4. 📝 Checklist de qualidade
+
+## Exemplo de Review Comment
+```
+## 🔍 QA Review - arquivo_alterado.py
+
+### ✅ Pontos Positivos
+- Boa cobertura de testes unitários
+- Tratamento adequado de exceções
+- Logging estruturado presente
+
+### ⚠️ Pontos de Atenção
+- Faltam testes para cenário de timeout
+- Validação de entrada poderia ser mais robusta
+
+### 🧪 Testes Sugeridos
+```python
+def test_api_timeout_scenario():
+    # Testar comportamento com timeout de rede
+    pass
+
+def test_invalid_payload_handling():
+    # Validar tratamento de payload malformado
+    pass
+```
+
+### 📋 Checklist QA
+- [ ] Testes cobrem casos de erro?
+- [ ] Performance impact analisado?
+- [ ] Logs suficientes para debug?
+- [ ] Documentação atualizada?
+```
+                                </pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-section">
+                            <h3>🎯 Como usar no GitHub</h3>
+                            <div class="code-example">
+                                <pre>
+# 1. Configurar no GitHub Copilot
+Adicione as instruções no arquivo .copilot-instructions.md do seu repo
+
+# 2. Usar durante review de PR
+@copilot analyze this PR for quality and testing gaps
+
+# 3. Review específico de arquivo  
+@copilot review this file focusing on testability and QA best practices
+
+# 4. Gerar checklist de qualidade
+@copilot create a QA checklist for this PR
+
+# 5. Sugerir testes ausentes
+@copilot what tests are missing for this change?
+                                </pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-section">
+                            <h3>📊 Report de Check de PR</h3>
+                            <div class="code-example">
+                                <pre>
+# RELATÓRIO QA - PR #123: Implementar pagamento PIX
+
+## 📋 Resumo Executivo
+- **Status Geral**: ⚠️  Aprovado com ressalvas
+- **Coverage**: 85% (Meta: 90%)
+- **Riscos**: 2 médios, 0 altos
+- **Testes Sugeridos**: 4 adicionais
+
+## 🔍 Análise Detalhada
+
+### Arquivos Analisados
+```
+src/
+├── payment/
+│   ├── pix_processor.py        ✅ Bem testado
+│   ├── pix_validator.py        ⚠️  Faltam edge cases  
+│   └── pix_integration.py      ❌ Sem testes de timeout
+└── tests/
+    ├── test_pix_processor.py   ✅ Cobertura 95%
+    └── test_pix_validator.py   ⚠️  Cobertura 70%
+```
+
+### 🧪 Testes Ausentes Críticos
+1. **Timeout de rede** - pix_integration.py:45
+2. **PIX key inválida** - pix_validator.py:23  
+3. **Rate limiting** - pix_processor.py:67
+4. **Fallback para erro bancário** - pix_integration.py:89
+
+### 🚀 Recomendações QA
+```python
+# Adicionar ao test_pix_integration.py
+@patch('requests.post', side_effect=Timeout())
+def test_network_timeout_handling(self, mock_post):
+    with pytest.raises(PIXTimeoutError):
+        processor.process_payment(valid_payload)
+
+# Adicionar ao test_pix_validator.py        
+def test_invalid_pix_key_formats(self):
+    invalid_keys = ['123', 'invalid@', '+55119999']
+    for key in invalid_keys:
+        assert not validator.validate_pix_key(key)
+```
+
+## 📈 Métricas de Qualidade
+- **Complexidade Ciclomática**: 8 (Aceitável < 10)
+- **Linhas por função**: Média 15 (Bom < 20)  
+- **Code duplication**: 2% (Excelente < 5%)
+- **Security issues**: 0 (Perfeito)
+
+## ✅ Actions Items
+- [ ] Adicionar 4 testes sugeridos
+- [ ] Aumentar coverage para 90%+
+- [ ] Review timeout configuration
+- [ ] Atualizar documentação de erro handling
+
+## 🏆 Aprovação QA
+**Status**: ✅ Aprovado após correções
+**Reviewer**: GitHub Copilot QA Assistant
+**Data**: 2024-10-06
+                                </pre>
+                            </div>
+                        </div>
+                        
+                        <div class="example-section">
+                            <h3>🎯 Benefícios do QA Review Automatizado</h3>
+                            <ul class="benefits-list">
+                                <li>Review consistente seguindo padrões da equipe</li>
+                                <li>Identifica gaps de teste que humanos podem perder</li>
+                                <li>Gera relatórios detalhados de qualidade</li>
+                                <li>Acelera processo de review mantendo qualidade</li>
+                                <li>Treina desenvolvedores em boas práticas</li>
+                                <li>Documenta decisões e checklist de qualidade</li>
+                            </ul>
+                            
+                            <div class="metrics">
+                                <h4>📊 Impacto no Time</h4>
+                                <div class="metric-item">
+                                    <span>Tempo de review reduzido:</span>
+                                    <span class="metric-value">60%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Bugs encontrados em PR:</span>
+                                    <span class="metric-value">+45%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Qualidade código aumentada:</span>
+                                    <span class="metric-value">+30%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span>Coverage médio do time:</span>
+                                    <span class="metric-value">92%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/animations.js"></script>
+    <script>
+        function goToSlide5() {
+            // Armazenar informação para ir ao slide 5
+            localStorage.setItem('targetSlide', '4'); // Slide 5 = índice 4
+        }
+
+        // Função para expandir/contrair exemplos
+        function toggleExample(card) {
+            const isExpanded = card.classList.contains('expanded');
+            
+            // Fechar todos os outros cards
+            document.querySelectorAll('.example-card').forEach(c => {
+                if (c !== card) {
+                    c.classList.remove('expanded');
+                }
+            });
+            
+            // Toggle do card atual
+            card.classList.toggle('expanded');
+            
+            // Scroll suave para o card expandido
+            if (!isExpanded) {
+                setTimeout(() => {
+                    card.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }, 100);
+            }
+        }
+
+        // Iniciar animação sequencial dos cards após carregamento
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.example-card');
+                cards.forEach(card => {
+                    card.classList.add('animate');
+                });
+            }, 150); // Delay inicial reduzido
+        });
+    </script>
+</body>
+</html>
