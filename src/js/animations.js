@@ -507,6 +507,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.expansionSystem = new ExpansionSystem();
     console.log('ExpansionSystem inicializado:', window.expansionSystem);
     
+    // Inicializar controle de navegação
+    window.navigationController = new NavigationController();
+    
     // Sistema de expansão inicializado com sucesso
 
     // Log de inicialização
@@ -1239,11 +1242,56 @@ class ExpansionSystem {
     }
 }
 
+// ===== CONTROLE DE NAVEGAÇÃO COM HOVER =====
+class NavigationController {
+    constructor() {
+        this.setupNavigationHover();
+    }
+
+    setupNavigationHover() {
+        const hoverArea = document.querySelector('.nav-hover-area');
+        const navigation = document.querySelector('.navigation');
+        
+        if (!hoverArea || !navigation) return;
+
+        let hideTimeout;
+
+        // Mostra navegação quando mouse entra na área
+        hoverArea.addEventListener('mouseenter', () => {
+            clearTimeout(hideTimeout);
+            navigation.classList.add('show');
+        });
+
+        // Mantém navegação visível quando mouse está sobre ela
+        navigation.addEventListener('mouseenter', () => {
+            clearTimeout(hideTimeout);
+            navigation.classList.add('show');
+        });
+
+        // Esconde navegação quando mouse sai da área (com delay)
+        hoverArea.addEventListener('mouseleave', () => {
+            hideTimeout = setTimeout(() => {
+                if (!navigation.matches(':hover')) {
+                    navigation.classList.remove('show');
+                }
+            }, 300);
+        });
+
+        // Esconde navegação quando mouse sai da navegação
+        navigation.addEventListener('mouseleave', () => {
+            hideTimeout = setTimeout(() => {
+                navigation.classList.remove('show');
+            }, 300);
+        });
+    }
+}
+
 // ===== EXPORTAR PARA USO GLOBAL =====
 window.AnimationManager = AnimationManager;
 window.SlideshowManager = SlideshowManager;
 window.CardManager = CardManager;
 window.Utils = Utils;
 window.ExpansionSystem = ExpansionSystem;
+window.NavigationController = NavigationController;
 
 // ExpansionSystem inicializado na função DOMContentLoaded principal
