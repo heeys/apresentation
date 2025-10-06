@@ -1173,6 +1173,11 @@ def test_invalid_pix_key_formats(self):
             }
         }
 
+        // Função para fechar um exemplo específico
+        function closeExample(card) {
+            card.classList.remove('expanded');
+        }
+
         // Iniciar animação sequencial dos cards após carregamento
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
